@@ -1,0 +1,9 @@
+.idea
+.git
+.gitignore
+Dockerfile
+*.md
+*.sh
+*.yml
+scripts
+.env
