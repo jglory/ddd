@@ -36,9 +36,35 @@ class AppServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function register()
     {
+        // Auth
         $this->app->when(\App\Handlers\Auth\Register::class)
             ->needs(\App\Models\Repository\Repository::class)
             ->give(\App\Domains\Student\Repositories\Repository::class);
+
+        // Bbs
+        $this->app->when(\App\Handlers\Bbs\AddNewArticle::class)
+            ->needs(\App\Models\Repository\Repository::class)
+            ->give(\App\Domains\Article\Repositories\Repository::class);
+        $this->app->when(\App\Handlers\Bbs\AddNewComment::class)
+            ->needs(\App\Models\Repository\Repository::class)
+            ->give(\App\Domains\Article\Repositories\Repository::class);
+        $this->app->when(\App\Handlers\Bbs\GetArticle::class)
+            ->needs(\App\Models\Repository\Repository::class)
+            ->give(\App\Domains\Article\Repositories\Repository::class);
+        $this->app->when(\App\Handlers\Bbs\GetArticleList::class)
+            ->needs(\App\Models\Repository\Repository::class)
+            ->give(\App\Domains\Article\Repositories\Repository::class);
+
+
+        $this->app->bind(\App\Http\Controllers\Api\Bbs\Requests\DeleteComment::class, function ($app) {
+            return \App\Http\Controllers\Api\Bbs\Requests\DeleteComment::createFrom($app->request);
+        });
+        $this->app->bind(\App\Http\Controllers\Api\Bbs\Requests\GetArticle::class, function ($app) {
+            return \App\Http\Controllers\Api\Bbs\Requests\GetArticle::createFrom($app->request);
+        });
+        $this->app->bind(\App\Http\Controllers\Api\Bbs\Requests\GetArticleList::class, function ($app) {
+            return \App\Http\Controllers\Api\Bbs\Requests\GetArticleList::createFrom($app->request);
+        });
     }
 
     /**
@@ -70,7 +96,7 @@ class AppServiceProvider extends ServiceProvider implements DeferrableProvider
     }
 
     /**
-     * Get the services provided by the provider.
+     * GetArticle the services provided by the provider.
      *
      * @return array
      */

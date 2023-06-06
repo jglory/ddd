@@ -20,7 +20,7 @@ abstract class Selector
     /**
      * @param Specification $spec
      *
-     * @return Dto|null
+     * @return Dto[]
      */
-    abstract public function process(Specification $spec): ?Dto;
+    abstract public function process(Specification $spec): array;
 }

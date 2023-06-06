@@ -27,6 +27,14 @@ abstract class Entity implements ToDtoInterface
     abstract protected function createDto(): Dto;
 
     /**
+     * @return int
+     */
+    public function id(): int
+    {
+        return $this->id;
+    }
+
+    /**
      * @param Dto $dto
      *
      * @throws \InvalidArgumentException

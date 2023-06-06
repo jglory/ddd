@@ -2,7 +2,7 @@
 
 namespace App\Models\Aggregate;
 
-use App\Models\Dto\Dto;
+use App\Models\Dto\Entity as Dto;
 use App\Models\Entity\IdentityTrait;
 use App\Models\Entity\ToDtoInterface;
 use Illuminate\Support\Carbon;
@@ -41,9 +41,9 @@ abstract class Aggregate implements ToDtoInterface
             throw new \InvalidArgumentException('잘못된 입력입니다.');
         }
 
-        $this->id = guid();
-        $this->createdAt = Carbon::now();
-        $this->updatedAt = $dto->updatedAt;
+        $this->id = $dto->id ?? guid();
+        $this->createdAt = $dto->createdAt ?? Carbon::now();
+        $this->updatedAt = $dto->updatedAt ?? $this->createdAt;
         $this->deletedAt = $dto->deletedAt;
         $this->initialize($dto);
     }

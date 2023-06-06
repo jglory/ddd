@@ -51,25 +51,35 @@ abstract class Repository
      *
      * @return Collection
      */
-    public function find(Specification $spec): Collection
-    {
-        $result = $this->findOne($spec);
-        if (is_null($result)) {
-            return collect();
-        }
-
-        return collect($result);
-    }
+//    public function find(Specification $spec): Collection
+//    {
+//        $result = $this->findOne($spec);
+//        if (is_null($result)) {
+//            return collect();
+//        }
+//
+//        return collect($result);
+//    }
 
     public function findOne(Specification $spec): ?Dto
+    {
+        $result = $this->find($spec);
+        if (empty($result)) {
+            return null;
+        }
+
+        return $result[0];
+    }
+
+    public function find(Specification $spec): ?array
     {
         if (isset($this->selectors[get_class($spec)]) === false) {
             throw new \LogicException('허용되지 않는 명세 객체입니다.');
         }
 
         $result = $this->selectors[get_class($spec)]->process($spec);
-        if (is_null($result)) {
-            return null;
+        if (empty($result)) {
+            return $result;
         }
         $this->addDataToOriginals($this->serialize($result));
 

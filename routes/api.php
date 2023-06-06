@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\BbsController;
 use App\Http\Controllers\Api\JWTAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,3 +35,19 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('logout', [JWTAuthController::class, 'logout'])->name('api.jwt.logout');
     Route::delete('leave', [JWTAuthController::class, 'leave'])->name('api.jwt.leave');
 });
+
+Route::group(
+    [
+        'prefix' => 'bbs',
+        'as' => 'bbs.',
+        'middleware' => ['auth:api'],
+    ],
+    function ($router) {
+        Route::post('', [BbsController::class, 'addNewArticle'])->name('add-new-article');
+        Route::delete('/{articleId}', [BbsController::class, 'deleteArticle'])->name('delete-article');
+        Route::get('/{articleId}', [BbsController::class, 'getArticle'])->name('get-article');
+        Route::get('', [BbsController::class, 'getArticleList'])->name('get-article-list');
+        Route::post('/articles/{articleId}/comments', [BbsController::class, 'addNewComment'])->name('comments.add-new-comment');
+        Route::delete('/articles/{articleId}/comments/{commentId}', [BbsController::class, 'deleteComment'])->name('comments.delete-comment');
+    }
+);

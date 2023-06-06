@@ -37,7 +37,7 @@ function dto(string $class, array $attributes): \App\Models\Dto\Dto
  */
 function guid(): int
 {
-    return random_int(0, 4294967295);
+    return intval((new \Godruoyi\Snowflake\Snowflake(0, 0))->id());
 }
 
 /**

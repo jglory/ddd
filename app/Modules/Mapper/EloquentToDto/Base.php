@@ -5,17 +5,32 @@ namespace App\Modules\Mapper\EloquentToDto;
 use App\Domains\User\Dtos\User as UserDto;
 use App\Domains\User\Eloquents\User as UserEloquent;
 use App\Models\Dto\Entity as Dto;
+use App\Modules\Mapper\EloquentToDto as EloquentToDtoMapper;
 use App\Modules\Mapper\Mapper;
+use App\Values\Password;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 
 /**
  * eloquent 를 dto로 변환하여 주는 유틸리티 클래스
  */
 abstract class Base extends Mapper
 {
+    protected EloquentToDtoMapper $mapper;
+
+    /**
+     * @param EloquentToDtoMapper $mapper
+     */
+    public function __construct()
+    {
+        $this->mapper = App::make(config('mapper.eloquent-to-dto'));
+    }
+
     abstract protected function createDto(): Dto;
 
     abstract protected function copy(mixed $in, mixed $out): void;
+
+
 
     public function create(mixed $in): mixed
     {
@@ -38,7 +53,7 @@ abstract class Base extends Mapper
         $out->name = $in->name;
         $out->email = $in->email;
         $out->emailVerifiedAt = $in->email_verified_at;
-        $out->password = $in->password;
+        $out->password = new Password($in->password, true);
         $out->rememberToken = $in->remember_token;
     }
 }
