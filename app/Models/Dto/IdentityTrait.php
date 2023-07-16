@@ -23,7 +23,7 @@ trait IdentityTrait
      *
      * @return mixed
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,

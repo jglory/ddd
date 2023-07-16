@@ -25,7 +25,7 @@ class LoginUser extends Dto
         }
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'email' => $this->email,
