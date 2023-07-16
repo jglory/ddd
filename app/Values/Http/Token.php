@@ -44,7 +44,7 @@ class Token extends Value
      * JSON으로 직렬화해야 하는 데이터 지정하여 돌려준다.
      * @return array
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'value' => $this->value,

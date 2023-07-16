@@ -12,7 +12,7 @@ class LeaveCustomer extends Dto
 {
     public LeaveUserDto $user;
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return parent::jsonSerialize() + ['user' => $this->user->jsonSerialize()];
     }

@@ -54,7 +54,7 @@ abstract class Code extends Value
      * @inheritDoc
      * @return mixed
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return ['code' => $this->code];
     }

@@ -12,7 +12,7 @@ class LoginCustomer extends Dto
 {
     public ?LoginUserDto $user = null;
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return parent::jsonSerialize()
             + ['user' => $this->user ? $this->user->jsonSerialize() : []];

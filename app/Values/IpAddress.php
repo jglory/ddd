@@ -110,7 +110,7 @@ class IpAddress implements \JsonSerializable
      *
      * @return mixed
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'ip' => $this->ip,

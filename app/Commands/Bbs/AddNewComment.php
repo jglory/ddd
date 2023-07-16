@@ -23,7 +23,7 @@ class AddNewComment extends Command
     /**
      * @return mixed
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'comment' => $this->comment->jsonSerialize(),

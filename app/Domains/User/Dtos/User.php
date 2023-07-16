@@ -18,7 +18,7 @@ class User extends Dto
     public ?Password $password = null;
     public ?string $rememberToken = null;
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return parent::jsonSerialize() + [
                 'name' => $this->name,

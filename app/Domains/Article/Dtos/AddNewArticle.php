@@ -13,7 +13,7 @@ class AddNewArticle extends Dto
     public ?string $title = null;
     public ?string $content = null;
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return parent::jsonSerialize() + [
                 'writerId' => $this->writerId,

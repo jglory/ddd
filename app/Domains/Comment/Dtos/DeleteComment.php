@@ -11,7 +11,7 @@ class DeleteComment extends Dto
 {
     public ?int $articleId = null;
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return parent::jsonSerialize() + [
                 'articleId' => $this->articleId,

@@ -26,7 +26,7 @@ class DeleteComment extends Command
     /**
      * @return mixed
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'requesterId' => $this->requesterId,

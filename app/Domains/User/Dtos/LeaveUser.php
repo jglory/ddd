@@ -18,7 +18,7 @@ class LeaveUser extends Dto
     {
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,
