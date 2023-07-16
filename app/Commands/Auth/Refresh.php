@@ -16,8 +16,8 @@ class Refresh extends Command
     {
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
-        return null;
+        return [];
     }
 }

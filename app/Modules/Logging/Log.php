@@ -40,7 +40,7 @@ class Log implements \Stringable, \JsonSerializable
         return json_encode($this, JSON_UNESCAPED_UNICODE);
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'method' => $this->method,

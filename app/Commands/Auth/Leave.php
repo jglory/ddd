@@ -20,7 +20,7 @@ class Leave extends Command
         $this->customer = $customer;
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'customer' => $this->customer->jsonSerialize(),

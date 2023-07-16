@@ -27,7 +27,7 @@ class CreateUser extends Dto
         }
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'name' => $this->name,

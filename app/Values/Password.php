@@ -25,7 +25,7 @@ class Password extends Value implements Stringable
     /**
      * @return mixed
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'value' => $this->value,

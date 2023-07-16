@@ -23,7 +23,7 @@ class AddNewArticle extends Command
     /**
      * @return mixed
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'article' => $this->article->jsonSerialize(),

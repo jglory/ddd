@@ -16,7 +16,7 @@ class Article extends Dto
     /** @var CommentDto[] */
     public array $comments = [];
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return parent::jsonSerialize() + [
                 'writerId' => $this->writerId,

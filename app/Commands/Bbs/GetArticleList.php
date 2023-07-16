@@ -25,7 +25,7 @@ class GetArticleList extends Command
     /**
      * @return mixed
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'page' => $this->page,
