@@ -2,24 +2,29 @@
 
 namespace Database\Factories;
 
-use App\Domains\User\Eloquents\User as UserEloquent;
-use App\Values\EmailAddress;
-use App\Values\Password;
+use App\Domains\Customer\Eloquents\Customer as CustomerEloquent;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 
+/**
+ * Auth eloquent class
+ *
+ * @property int $id bigint
+ * @property Carbon|null $created_at timestamp
+ * @property Carbon|null $updated_at timestamp
+ * @property Carbon|null $deleted_at timestamp
+ */
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class UserFactory extends Factory
+class CustomerFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var class-string<\Illuminate\Database\Eloquent\Model|TModel>
      */
-    protected $model = UserEloquent::class;
+    protected $model = CustomerEloquent::class;
 
     /**
      * Define the model's default state.
@@ -30,11 +35,6 @@ class UserFactory extends Factory
     {
         return [
             'id' => guid(),
-            'name' => $this->faker->name(),
-            'email' => new EmailAddress($this->faker->unique()->safeEmail()),
-            'email_verified_at' => Carbon::now(),
-            'password' => new Password(bcrypt(env('TEST_USER_PASSWORD')), true),
-            'remember_token' => Str::random(10),
             'created_at' => Carbon::now(),
         ];
     }

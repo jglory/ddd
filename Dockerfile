@@ -1,4 +1,4 @@
-FROM php:8.1.16-apache-buster
+FROM php:8.2.9RC1-apache-bullseye
 
 # 환경 설정
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public \
@@ -8,7 +8,7 @@ ENV APACHE_DOCUMENT_ROOT=/var/www/html/public \
   PHP_MEMORY_LIMIT=512M
 ARG XDEBUG_IDEKEY=PHPSTORM
 ARG XDEBUG_REMOTE_PORT=9000
-  
+
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # 새로운 패키지 버전 확인
