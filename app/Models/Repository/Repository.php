@@ -2,6 +2,7 @@
 
 namespace App\Models\Repository;
 
+use \Closure;
 use App\Models\Dto\Entity as Dto;
 use App\Modules\Database\Factory;
 use Illuminate\Support\Collection;
@@ -81,7 +82,14 @@ abstract class Repository
         if (empty($result)) {
             return $result;
         }
-        $this->addDataToOriginals($this->serialize($result));
+        $serialized = [];
+        array_walk($result, Closure::bind(
+            function (&$item, $key) use (&$serialized) {
+                $serialized += $this->serialize($item);
+            },
+            $this
+        ));
+        $this->addDataToOriginals($serialized);
 
         return $result;
     }
@@ -138,5 +146,9 @@ abstract class Repository
         $this->factory->updaters(get_class($dto))->process($dto);
     }
 
-    abstract protected function serialize(Dto $dto): array;
+    /**
+     * @param Dto $dto
+     * @return array
+     */
+    abstract protected function serialize($dto): array;
 }
