@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\Bbs\Requests\DeleteComment as DeleteCommentRequest;
 use App\Http\Controllers\Api\Bbs\Requests\GetArticle as GetArticleRequest;
 use App\Http\Controllers\Api\Bbs\Requests\GetArticleList as GetArticleListRequest;
 use App\Http\Controllers\Api\Bbs\Transformers\AddNewArticleFail as AddNewArticleFailTransformer;
-use App\Http\Controllers\Api\Bbs\Transformers\AddNewArticleSuccess as AddNewArticleSuccessTransformer;
+use App\Http\Controllers\Api\Bbs\Transformers\AddNewArticleOk as AddNewArticleOkTransformer;
 use App\Http\Controllers\Api\Bbs\Transformers\AddNewCommentFail as AddNewCommentFailTransformer;
 use App\Http\Controllers\Api\Bbs\Transformers\AddNewCommentSuccess as AddNewCommentSuccessTransformer;
 use App\Http\Controllers\Api\Bbs\Transformers\DeleteArticleFail as DeleteArticleFailTransformer;
@@ -41,6 +41,16 @@ class BbsController extends Controller
     {
         $this->factory = $factory;
         $this->rns = $rns;
+    }
+
+    /**
+     * @param mixed $data
+     * @param HttpStatusCode $code
+     * @return array
+     */
+    protected function packResult(mixed $data, HttpStatusCode $code = new HttpStatusCode(HttpStatusCode::HTTP_OK)): array
+    {
+        return [$data, $code];
     }
 
     /**
@@ -108,7 +118,7 @@ class BbsController extends Controller
             $handler = $this->rns->lookup($command);
             $article = $handler->process($command);
 
-            return (new AddNewArticleSuccessTransformer())->process($article);
+            return (new AddNewArticleOkTransformer())->process($this->packResult($article, new HttpStatusCode(HttpStatusCode::HTTP_CREATED)));
         } catch (HttpException $e) {
             return (new AddNewArticleFailTransformer())->process($e);
         } catch (\Exception $e) {
