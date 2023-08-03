@@ -13,7 +13,7 @@ use App\Http\Controllers\Api\Auth\Transformers\LoginSuccess as LoginSuccessTrans
 use App\Http\Controllers\Api\Auth\Transformers\RefreshFail as RefreshFailTransformer;
 use App\Http\Controllers\Api\Auth\Transformers\RefreshSuccess as RefreshSuccessTransformer;
 use App\Http\Controllers\Api\Auth\Transformers\RegisterFail as RegisterFailTransformer;
-use App\Http\Controllers\Api\Auth\Transformers\RegisterSuccess as RegisterSuccessTransformer;
+use App\Http\Controllers\Api\Auth\Transformers\RegisterOk as RegisterOkTransformer;
 use App\Http\Controllers\Controller;
 use App\Http\Exceptions\Exception as HttpException;
 use App\Modules\Command\Factories\Factory as CommandFactory;
@@ -36,6 +36,11 @@ class JWTAuthController extends Controller
         $this->rns = $rns;
     }
 
+    protected function packResult(mixed $data, HttpStatusCode $code)
+    {
+        return [$data, $code];
+    }
+
     public function register(AuthRegisterRequest $request)
     {
         try {
@@ -45,7 +50,7 @@ class JWTAuthController extends Controller
             $handler = $this->rns->lookup($command);
             $customer = $handler->process($command);
 
-            return (new RegisterSuccessTransformer())->process($customer);
+            return (new RegisterOkTransformer())->process($this->packResult($customer, (new HttpStatusCode(HttpStatusCode::HTTP_CREATED))));
         } catch (HttpException $e) {
             return (new RegisterFailTransformer())->process($e);
         } catch (\Exception $e) {
