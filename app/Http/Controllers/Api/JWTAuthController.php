@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\Auth\Transformers\LeaveSuccess as LeaveSuccessTrans
 use App\Http\Controllers\Api\Auth\Transformers\LoginFail as LoginFailTransformer;
 use App\Http\Controllers\Api\Auth\Transformers\LoginSuccess as LoginSuccessTransformer;
 use App\Http\Controllers\Api\Auth\Transformers\RefreshFail as RefreshFailTransformer;
-use App\Http\Controllers\Api\Auth\Transformers\RefreshSuccess as RefreshSuccessTransformer;
+use App\Http\Controllers\Api\Auth\Transformers\RefreshOk as RefreshOkTransformer;
 use App\Http\Controllers\Api\Auth\Transformers\RegisterFail as RegisterFailTransformer;
 use App\Http\Controllers\Api\Auth\Transformers\RegisterOk as RegisterOkTransformer;
 use App\Http\Controllers\Controller;
@@ -36,7 +36,7 @@ class JWTAuthController extends Controller
         $this->rns = $rns;
     }
 
-    protected function packResult(mixed $data, HttpStatusCode $code)
+    protected function packResult(mixed $data, HttpStatusCode $code = new HttpStatusCode(HttpStatusCode::HTTP_OK))
     {
         return [$data, $code];
     }
@@ -111,7 +111,7 @@ class JWTAuthController extends Controller
             $handler = $this->rns->lookup($command);
             $token = $handler->process($command);
 
-            return (new RefreshSuccessTransformer())->process($token);
+            return (new RefreshOkTransformer())->process($this->packResult($token));
         } catch (HttpException $e) {
             return (new RefreshFailTransformer())->process($e);
         } catch (\Exception $e) {
