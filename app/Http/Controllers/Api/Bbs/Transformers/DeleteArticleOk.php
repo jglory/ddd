@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api\Bbs\Transformers;
 
-use App\Models\Http\Transformer;
+use App\Http\Transformers\Ok as OkTransformer;
 
 /**
  * DeleteArticleSuccess transformer
  */
-class DeleteArticleSuccess extends Transformer
+class DeleteArticleOk extends OkTransformer
 {
     /**
      * @param mixed $data
@@ -15,11 +15,9 @@ class DeleteArticleSuccess extends Transformer
      */
     public function process(mixed $data): mixed
     {
-        return [
-            'status' => 'success',
-            'data' => [
-                'article' => $data
-            ]
-        ];
+        return parent::process([
+            ['article' => $data[0]],
+            $data[1]
+        ]);
     }
 }
