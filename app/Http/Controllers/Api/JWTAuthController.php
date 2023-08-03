@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\Auth\Requests\Login as AuthLoginRequest;
 use App\Http\Controllers\Api\Auth\Requests\Refresh as AuthRefreshRequest;
 use App\Http\Controllers\Api\Auth\Requests\Register as AuthRegisterRequest;
 use App\Http\Controllers\Api\Auth\Transformers\LeaveFail as LeaveFailTransformer;
-use App\Http\Controllers\Api\Auth\Transformers\LeaveSuccess as LeaveSuccessTransformer;
+use App\Http\Controllers\Api\Auth\Transformers\LeaveOk as LeaveOkTransformer;
 use App\Http\Controllers\Api\Auth\Transformers\LoginFail as LoginFailTransformer;
 use App\Http\Controllers\Api\Auth\Transformers\LoginOk as LoginOkTransformer;
 use App\Http\Controllers\Api\Auth\Transformers\RefreshFail as RefreshFailTransformer;
@@ -140,7 +140,7 @@ class JWTAuthController extends Controller
             $handler = $this->rns->lookup($command);
             $token = $handler->process($command);
 
-            return (new LeaveSuccessTransformer())->process($token);
+            return (new LeaveOkTransformer())->process($this->packResult($token));
         } catch (HttpException $e) {
             return (new LeaveFailTransformer())->process($e);
         } catch (\Exception $e) {
