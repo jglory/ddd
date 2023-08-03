@@ -20,7 +20,11 @@ class Repository extends Base
         $this->selectors[FindByIdSpecification::class] = new FindByIDSelector();
     }
 
-    protected function serialize(?Dto $dto): array
+    /**
+     * @param Dto $dto
+     * @return array
+     */
+    protected function serialize($dto): array
     {
         return [$dto, $dto->user];
     }
