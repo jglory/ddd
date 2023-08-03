@@ -15,7 +15,7 @@ use App\Http\Controllers\Api\Bbs\Transformers\AddNewArticleOk as AddNewArticleOk
 use App\Http\Controllers\Api\Bbs\Transformers\AddNewCommentFail as AddNewCommentFailTransformer;
 use App\Http\Controllers\Api\Bbs\Transformers\AddNewCommentOk as AddNewCommentOkTransformer;
 use App\Http\Controllers\Api\Bbs\Transformers\DeleteArticleFail as DeleteArticleFailTransformer;
-use App\Http\Controllers\Api\Bbs\Transformers\DeleteArticleSuccess as DeleteArticleSuccessTransformer;
+use App\Http\Controllers\Api\Bbs\Transformers\DeleteArticleOk as DeleteArticleOkTransformer;
 use App\Http\Controllers\Api\Bbs\Transformers\DeleteCommentFail as DeleteCommentFailTransformer;
 use App\Http\Controllers\Api\Bbs\Transformers\DeleteCommentOk as DeleteCommentOkTransformer;
 use App\Http\Controllers\Api\Bbs\Transformers\GetArticleFail as GetArticleFailTransformer;
@@ -144,7 +144,7 @@ class BbsController extends Controller
             $handler = $this->rns->lookup($command);
             $article = $handler->process($command);
 
-            return (new DeleteArticleSuccessTransformer())->process($article);
+            return (new DeleteArticleOkTransformer())->process($this->packResult($article));
         } catch (HttpException $e) {
             return (new DeleteArticleFailTransformer())->process($e);
         } catch (\Exception $e) {
