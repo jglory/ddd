@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\Auth\Requests\Register as AuthRegisterRequest;
 use App\Http\Controllers\Api\Auth\Transformers\LeaveFail as LeaveFailTransformer;
 use App\Http\Controllers\Api\Auth\Transformers\LeaveSuccess as LeaveSuccessTransformer;
 use App\Http\Controllers\Api\Auth\Transformers\LoginFail as LoginFailTransformer;
-use App\Http\Controllers\Api\Auth\Transformers\LoginSuccess as LoginSuccessTransformer;
+use App\Http\Controllers\Api\Auth\Transformers\LoginOk as LoginOkTransformer;
 use App\Http\Controllers\Api\Auth\Transformers\RefreshFail as RefreshFailTransformer;
 use App\Http\Controllers\Api\Auth\Transformers\RefreshOk as RefreshOkTransformer;
 use App\Http\Controllers\Api\Auth\Transformers\RegisterFail as RegisterFailTransformer;
@@ -82,7 +82,7 @@ class JWTAuthController extends Controller
                 throw new HttpException('회원 인증에 실패하였습니다.', new HttpStatusCode(HttpStatusCode::HTTP_UNAUTHORIZED));
             }
 
-            return (new LoginSuccessTransformer())->process($token);
+            return (new LoginOkTransformer())->process($this->packResult($token));
         } catch (HttpException $e) {
             return (new LoginFailTransformer())->process($e);
         } catch (\Exception $e) {
