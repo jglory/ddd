@@ -14,7 +14,7 @@ class Fail extends Transformer
         return response(
             [
                 'status' => 'fail',
-                'message' => $data->getMessage(),
+                'data' => $data->getMessage(),
             ],
             $data->getCode()
         );
