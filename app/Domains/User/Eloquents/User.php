@@ -2,6 +2,7 @@
 
 namespace App\Domains\User\Eloquents;
 
+use Database\Factories\UserFactory;
 use App\Values\EmailAddress;
 use App\Values\Password;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +20,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string $name varchar(255)
  * @property EmailAddress $email varchar(255)
  * @property Carbon|null $email_verified_at timestamp
- * @property string $password varchar(255)
+ * @property Password $password varchar(255)
  * @property string|null $remember_token varchar(100)
  * @property Carbon|null $created_at timestamp
  * @property Carbon|null $updated_at timestamp
@@ -40,6 +41,11 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    protected static function newFactory()
+    {
+        return UserFactory::new();
     }
 
 
