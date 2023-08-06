@@ -3,8 +3,10 @@
 namespace App\Domains\Customer\Eloquents;
 
 use App\Domains\User\Eloquents\User;
+use Database\Factories\CustomerFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 
 /**
@@ -17,6 +19,7 @@ use Illuminate\Support\Carbon;
  */
 class Customer extends Model
 {
+    use HasFactory;
     use SoftDeletes;
 
     /**
@@ -39,6 +42,11 @@ class Customer extends Model
      * @var array<string, string>
      */
     protected $casts = [];
+
+    protected static function newFactory()
+    {
+        return CustomerFactory::new();
+    }
 
     public function user()
     {
