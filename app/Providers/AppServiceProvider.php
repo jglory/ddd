@@ -55,6 +55,9 @@ class AppServiceProvider extends ServiceProvider implements DeferrableProvider
             ->needs(\App\Models\Repository\Repository::class)
             ->give(\App\Domains\Article\Repositories\Repository::class);
 
+        $this->app->bind(\App\Http\Controllers\Api\Auth\Requests\Login::class, function ($app) {
+            return \App\Http\Controllers\Api\Auth\Requests\Login::createFrom($app->request);
+        });
         $this->app->bind(\App\Http\Controllers\Api\Auth\Requests\Register::class, function ($app) {
             return \App\Http\Controllers\Api\Auth\Requests\Register::createFrom($app->request);
         });
