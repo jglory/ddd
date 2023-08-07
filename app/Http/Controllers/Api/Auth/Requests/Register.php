@@ -14,7 +14,7 @@ class Register extends Request
     {
         return [
             'user.name' => 'required|string|max:255',
-            'user.email' => 'required|email:rfc,dns|max:255',
+            'user.email' => 'required|email:rfc|max:255',
             'user.password.value' => [
                 'required',
                 'string',

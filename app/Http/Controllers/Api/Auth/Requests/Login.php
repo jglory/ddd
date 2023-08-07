@@ -13,7 +13,7 @@ class Login extends Request
     protected function getValidationRules(): array
     {
         return [
-            'user.email' => 'required|email:rfc,dns|max:255',
+            'user.email' => 'required|email:rfc|max:255',
             'user.password.value' => 'required|string|min:8',
             'user.password.isEncrypted' => [
                 'required',
