@@ -33,7 +33,7 @@ class UserFactory extends Factory
             'name' => $this->faker->name(),
             'email' => new EmailAddress($this->faker->unique()->safeEmail()),
             'email_verified_at' => Carbon::now(),
-            'password' => new Password('$2y$10$Kj/0GAOfTPXww86VuHVzVePzJ.3bNZgC4dJzdnUqDSDVsZdv6Vw/K', true), // Thomas123!
+            'password' => new Password(bcrypt(env('TEST_USER_PASSWORD')), true),
             'remember_token' => Str::random(10),
             'created_at' => Carbon::now(),
         ];
