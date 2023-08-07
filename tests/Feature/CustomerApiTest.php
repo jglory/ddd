@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Domains\Customer\Eloquents\Customer as CustomerEloquent;
+use App\Domains\User\Eloquents\User as UserEloquent;
 use App\Values\EmailAddress;
 use App\Values\Http\Method as HttpMethod;
 use App\Values\Http\StatusCode as HttpStatusCode;
@@ -45,5 +47,34 @@ class CustomerApiTest extends TestCase
         $this->json(HttpMethod::POST, route('api.jwt.register'), $data)
             ->assertStatus(HttpStatusCode::HTTP_CREATED)
             ->assertJson($body);
+    }
+
+    public function test_can_login(): void
+    {
+        /** @var UserEloquent $user */
+        $user = UserEloquent::factory()->make();
+
+        /** @var CustomerEloquent $customer */
+        $customer = CustomerEloquent::factory()
+            ->state(function (array $attributes) use ($user) {
+                return ['user_id' => $user->id];
+            })
+            ->make();
+
+        $user->save();
+        $customer->save();
+
+        $data = [
+            "user" => [
+                "email" => (string)$user->email,
+                "password" => [
+                    "value" => env('TEST_USER_PASSWORD'),
+                    "isEncrypted" => false
+                ]
+            ]
+        ];
+
+        $response = $this->json(HttpMethod::POST, route('api.jwt.login'), $data)
+            ->assertStatus(HttpStatusCode::HTTP_OK);
     }
 }
