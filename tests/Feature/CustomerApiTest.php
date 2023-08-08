@@ -9,6 +9,7 @@ use App\Values\Http\Method as HttpMethod;
 use App\Values\Http\StatusCode as HttpStatusCode;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CustomerApiTest extends TestCase
 {
@@ -75,6 +76,32 @@ class CustomerApiTest extends TestCase
         ];
 
         $response = $this->json(HttpMethod::POST, route('api.jwt.login'), $data)
+            ->assertStatus(HttpStatusCode::HTTP_OK);
+    }
+
+    public function test_can_refresh_token()
+    {
+        /** @var UserEloquent $user */
+        $user = UserEloquent::factory()->make();
+        $userId = $user->id;
+
+        /** @var CustomerEloquent $customer */
+        $customer = CustomerEloquent::factory()
+            ->state(function (array $attributes) use ($user) {
+                return ['user_id' => $user->id];
+            })
+            ->make();
+        $customerId = $customer->id;
+
+        $user->save();
+        $user->id = $userId;
+
+        $customer->save();
+        $customer->id = $customerId;
+
+        $this->actingAs($user, 'api');
+
+        $this->get(route('api.jwt.refresh'), ['Authorization' => 'Bearer ' . JWTAuth::fromUser($user)])
             ->assertStatus(HttpStatusCode::HTTP_OK);
     }
 }
