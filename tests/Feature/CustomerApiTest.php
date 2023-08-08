@@ -104,4 +104,37 @@ class CustomerApiTest extends TestCase
         $this->get(route('api.jwt.refresh'), ['Authorization' => 'Bearer ' . JWTAuth::fromUser($user)])
             ->assertStatus(HttpStatusCode::HTTP_OK);
     }
+
+    public function test_can_show_customer()
+    {
+        /** @var UserEloquent $user */
+        $user = UserEloquent::factory()->make();
+        $userId = $user->id;
+
+        /** @var CustomerEloquent $customer */
+        $customer = CustomerEloquent::factory()
+            ->state(function (array $attributes) use ($user) {
+                return ['user_id' => $user->id];
+            })
+            ->make();
+        $customerId = $customer->id;
+
+        $user->save();
+        $user->id = $userId;
+
+        $customer->save();
+        $customer->id = $customerId;
+
+        $this->actingAs($user, 'api');
+
+        $body = [
+            "id" => $user->id,
+            "name" => $user->name,
+            "email" => $user->email->jsonSerialize(),
+        ];
+
+        $this->get(route('api.jwt.user'), ['Authorization' => 'Bearer ' . JWTAuth::fromUser($user)])
+            ->assertStatus(HttpStatusCode::HTTP_OK)
+            ->assertJson($body);
+    }
 }
