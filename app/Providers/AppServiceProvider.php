@@ -75,6 +75,10 @@ class AppServiceProvider extends ServiceProvider implements DeferrableProvider
             return \App\Http\Controllers\Api\Bbs\Requests\GetArticleList::createFrom($app->request);
         });
 
+        $this->app->singleton('filter.sensitive-information', function (Application $app) {
+            return new \App\Modules\Filter\SensitiveInformation\Filter();
+        });
+
         $this->app->singleton('snowflake', function (Application $app) {
             return (new \Godruoyi\Snowflake\Snowflake(env('SNOWFLAKE_DATACENTERID', 0), env('SNOWFLAKE_WORKERID', 0)))
                 ->setStartTimeStamp(strtotime('1970-01-01')*1000)

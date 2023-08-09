@@ -9,9 +9,9 @@ use App\Http\Transformers\Ok as OkTransformer;
  */
 class LoginOk extends OkTransformer
 {
-    public function process(mixed $data): mixed
+    protected function transform(mixed $data): mixed
     {
-        return parent::process([
+        return parent::transform([
             ['token' => $data[0]],
             $data[1],
         ]);

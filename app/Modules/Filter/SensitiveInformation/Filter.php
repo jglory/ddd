@@ -64,7 +64,7 @@ class Filter extends Transformer
 
         if (is_array($data)) {
             $filtered = [];
-            foreach ($data as $key => &$item) {
+            foreach ($data as $key => $item) {
                 $filtered[$key] = $this->process($item);
             }
             return $filtered;
@@ -72,7 +72,7 @@ class Filter extends Transformer
 
         if ($data instanceof Traversable) {
             $cloned = clone $data;
-            foreach ($data as $key => &$item) {
+            foreach ($data as $key => $item) {
                 $cloned[$key] = $this->process($item);
             }
             return $cloned;
