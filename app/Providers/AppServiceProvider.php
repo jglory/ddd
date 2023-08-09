@@ -7,6 +7,7 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Foundation\Application;
 
 class AppServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -72,6 +73,12 @@ class AppServiceProvider extends ServiceProvider implements DeferrableProvider
         });
         $this->app->bind(\App\Http\Controllers\Api\Bbs\Requests\GetArticleList::class, function ($app) {
             return \App\Http\Controllers\Api\Bbs\Requests\GetArticleList::createFrom($app->request);
+        });
+
+        $this->app->singleton('snowflake', function (Application $app) {
+            return (new \Godruoyi\Snowflake\Snowflake(env('SNOWFLAKE_DATACENTERID', 0), env('SNOWFLAKE_WORKERID', 0)))
+                ->setStartTimeStamp(strtotime('1970-01-01')*1000)
+                ->setSequenceResolver(new \App\Modules\Snowflake\MutexSequenceResolver(env('SNOWFLAKE_MUTEX'), env('SNOWFLAKE_MUTEX_WAIT')));
         });
     }
 
