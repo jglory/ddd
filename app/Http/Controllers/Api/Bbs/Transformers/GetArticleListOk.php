@@ -13,9 +13,9 @@ class GetArticleListOk extends OkTransformer
      * @param mixed $data
      * @return mixed
      */
-    public function process(mixed $data): mixed
+    protected function transform(mixed $data): mixed
     {
-        return parent::process([
+        return parent::transform([
             ['list' => $data[0]],
             $data[1]
         ]);

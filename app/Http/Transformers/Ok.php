@@ -11,7 +11,7 @@ use InvalidArgumentException;
  */
 class Ok extends Transformer
 {
-    public function process(mixed $data): mixed
+    protected function transform(mixed $data): mixed
     {
         if ($data[1] instanceof HttpStatusCode === false) {
             throw new InvalidArgumentException('잘못된 입력값입니다.');
