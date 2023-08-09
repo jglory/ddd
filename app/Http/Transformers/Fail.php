@@ -9,7 +9,7 @@ use App\Models\Http\Transformer;
  */
 class Fail extends Transformer
 {
-    public function process(mixed $data): mixed
+    protected function transform(mixed $data): mixed
     {
         return response(
             [
