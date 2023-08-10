@@ -37,11 +37,7 @@ function dto(string $class, array $attributes): \App\Models\Dto\Dto
  */
 function guid(): int
 {
-    static $snowflake;
-    if ($snowflake === null) {
-        $snowflake = new \Godruoyi\Snowflake\Snowflake(env('SNOWFLAKE_DATACENTERID', 0), env('SNOWFLAKE_WORKERID', 0));
-    }
-    return intval($snowflake->id());
+    return intval(app('snowflake')->id());
 }
 
 /**
