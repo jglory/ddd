@@ -12,13 +12,21 @@ use Traversable;
 class Filter extends Transformer
 {
     /**
+     * 민감정보에 대한 필터링 메타데이터
+     *
+     * @var array
+     */
+    protected array $metadata;
+
+    /**
      * 설정으로부터 민감정보 속성명 목록을 읽어들여 돌려준다.
      *
+     * @param Dto $dto
      * @return array
      */
-    private function getSensitiveAttributeNamesFromConfig(Dto $dto): array
+    private function queryMetadata(Dto $dto): array
     {
-        return config('filter')['sensitive-information'][$dto::class] ?? [];
+        return $this->metadata[$dto::class] ?? [];
     }
 
     /**
@@ -34,6 +42,16 @@ class Filter extends Transformer
     }
 
     /**
+     * 생성자
+     *
+     * @param array $metadata
+     */
+    public function __construct(array $metadata)
+    {
+        $this->metadata = $metadata;
+    }
+
+    /**
      * $data를 필터링 처리하여 돌려준다.
      *
      * @param mixed $data
@@ -43,9 +61,9 @@ class Filter extends Transformer
     {
         if ($data instanceof Dto) {
             $cloned = clone $data;
-            $attributeNames = $this->getSensitiveAttributeNamesFromConfig($cloned);
+            $metadata = $this->queryMetadata($cloned);
             foreach ($cloned as $name => $value) {
-                if (in_array($name, $attributeNames)) {
+                if (in_array($name, $metadata)) {
                     $this->filter($cloned, $name);
                     continue;
                 }

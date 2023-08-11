@@ -76,7 +76,7 @@ class AppServiceProvider extends ServiceProvider implements DeferrableProvider
         });
 
         $this->app->singleton('filter.sensitive-information', function (Application $app) {
-            return new \App\Modules\Filter\SensitiveInformation\Filter();
+            return new \App\Modules\Filter\SensitiveInformation\Filter(config('filter')['sensitive-information']);
         });
 
         $this->app->singleton('snowflake', function (Application $app) {

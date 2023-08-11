@@ -30,7 +30,7 @@ class FilterTest extends TestCase
             ]
         );
 
-        $result = (new Filter())->process($dto);
+        $result = app('filter.sensitive-information')->process($dto);
 
         $this->assertFalse($dto === $result);
         $this->assertNull($result->password);
@@ -61,7 +61,7 @@ class FilterTest extends TestCase
             ]
         );
 
-        $result = (new Filter())->process($dto);
+        $result = app('filter.sensitive-information')->process($dto);
 
         $this->assertFalse($dto === $result);
         $this->assertNull($result->user->password);
