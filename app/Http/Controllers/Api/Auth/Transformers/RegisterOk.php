@@ -9,9 +9,9 @@ use App\Http\Transformers\Ok as OkTransformer;
  */
 class RegisterOk extends OkTransformer
 {
-    public function process(mixed $data): mixed
+    protected function transform(mixed $data): mixed
     {
-        return parent::process([
+        return parent::transform([
             ['customer' => $data[0]],
             $data[1]
             ]);
