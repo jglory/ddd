@@ -2,9 +2,9 @@
 
 namespace App\Models\Repository;
 
-use \Closure;
 use App\Models\Dto\Entity as Dto;
 use App\Modules\Database\Factory;
+use Closure;
 use Illuminate\Support\Collection;
 
 /**
@@ -15,7 +15,7 @@ abstract class Repository
     private Factory $factory;
 
     protected array $originals = [];
-
+    /** @var Selector[] */
     protected array $selectors = [];
 
     public function __construct(Factory $factory)
@@ -47,43 +47,23 @@ abstract class Repository
         }
     }
 
-    /**
-     * @param Specification $spec
-     *
-     * @return Collection
-     */
-//    public function find(Specification $spec): Collection
-//    {
-//        $result = $this->findOne($spec);
-//        if (is_null($result)) {
-//            return collect();
-//        }
-//
-//        return collect($result);
-//    }
-
     public function findOne(Specification $spec): ?Dto
     {
-        $result = $this->find($spec);
-        if (empty($result)) {
-            return null;
-        }
-
-        return $result[0];
+        return $this->find($spec)->first();
     }
 
-    public function find(Specification $spec): ?array
+    public function find(Specification $spec): Collection
     {
         if (isset($this->selectors[get_class($spec)]) === false) {
             throw new \LogicException('허용되지 않는 명세 객체입니다.');
         }
 
         $result = $this->selectors[get_class($spec)]->process($spec);
-        if (empty($result)) {
+        if ($result->isEmpty()) {
             return $result;
         }
         $serialized = [];
-        array_walk($result, Closure::bind(
+        $result->each(Closure::bind(
             function (&$item, $key) use (&$serialized) {
                 $serialized += $this->serialize($item);
             },

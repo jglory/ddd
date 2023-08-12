@@ -2,10 +2,9 @@
 
 namespace App\Models\Repository;
 
-use App\Models\Dto\Entity as Dto;
 use App\Modules\Mapper\Mapper;
 use Illuminate\Support\Facades\App;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 abstract class Selector
 {
@@ -21,7 +20,7 @@ abstract class Selector
     /**
      * @param Specification $spec
      *
-     * @return Dto|Collection|null
+     * @return Collection
      */
-    abstract public function process(Specification $spec);
+    abstract public function process(Specification $spec): Collection;
 }

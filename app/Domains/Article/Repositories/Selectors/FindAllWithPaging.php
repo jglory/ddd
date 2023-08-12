@@ -15,12 +15,12 @@ class FindAllWithPaging extends Selector
      * @param Specification $spec
      * @return array|Dto[]
      */
-    public function process(Specification $spec): array
+    public function process(Specification $spec): Collection
     {
         $count = ArticleEloquent::count();
         $pageCount = intdiv($count, $spec->pageSize) + ($count % $spec->pageSize > 0 ? 1 : 0);
         if ($spec->page > $pageCount) {
-            return [];
+            return collect();
         }
 
         $skip = ($spec->page - 1) * $spec->pageSize;
@@ -32,7 +32,6 @@ class FindAllWithPaging extends Selector
                     return $this->mapper->create($item);
                 },
                 $this)
-            )
-            ->toArray();
+            );
     }
 }
